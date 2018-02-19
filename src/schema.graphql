@@ -1,0 +1,9 @@
+type Query {
+	me: User
+	users(limit: Int = 20, offset: Int = 0): [User]
+}
+
+type User {
+	id: ID
+	name: String
+}
