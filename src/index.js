@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import express from 'express';
+import morgan from 'morgan';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
@@ -28,9 +30,15 @@ const resolvers = {
 
 const schema = makeExecutableSchema({
 	typeDefs,
-	resolvers
+	resolvers,
+	logger: { log: e => console.log(e) }
 });
 
+if (process.env.NODE_ENV !== 'production') {
+	app.use(morgan('dev'));
+}
+
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/graphql', graphqlExpress({ schema }));
