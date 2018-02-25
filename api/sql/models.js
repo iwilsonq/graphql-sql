@@ -2,8 +2,7 @@ import knex from './connector';
 
 export class Users {
 	find() {
-		const query = knex('users');
-		return query.then(data => data);
+		return knex('users');
 	}
 
 	findById(id) {
